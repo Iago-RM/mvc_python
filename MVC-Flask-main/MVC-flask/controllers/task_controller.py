@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, Flask
 from models import db
 from models.task import Task
 from models.user import User
@@ -16,60 +16,59 @@ class TaskController:
 
     @staticmethod
     def create_task():
-        
+        """
+    Rota de post
+    ---
+    tags:
+      - Tarefas
+    description: Cria ou edita uma tarefa com titulo, descricao, e id
+    consumes:
+      - application/json
+    produces:
+      - application/json
+    parameters:
+      - in: body
+        name: task
+        description: Objeto JSON com os dados da tarefa
+        required: true
+        schema:
+          type: object
+          required:
+            - title
+            - email
+          properties:
+            title:
+              type: string
+              example: Tarefa de MVC
+            description:
+              type: string
+              example: Programa para ler, criar, atualizar e deletar em uma api
+    responses:
+      201:
+        description: Retorna uma tarefa
+        schema:
+          type: object
+          properties:
+            title:
+              type: string
+              example: Tarefa de MVC
+            description:
+              type: string
+              example: Programa para ler, criar, atualizar e deletar em uma api
+            user_id: 
+              type: integer
+              example: 3
+      400:
+        description: Requisição invalida, faltando titulo ou descrição
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+              example: "titulo e descrição são obrigatorios"
+    """
         if request.method == "POST":
-            """
-                Rota de post
-                    ---
-                tags:
-                    - Tarefas
-                description: Cria uma tarefa com titulo, descricao, e id
-                consumes:
-                    -application/json
-                produces:
-                    -application/json
-                parameters:
-                    -in: body
-                    name:task
-                    description: Objeto JSON com os dados da tarefa
-                    required: true
-                    schema:
-                        type: object
-                        required:
-                            -title
-                            -email
-                        properties:
-                            title:
-                                type: string
-                                example: Tarefa de MVC
-                            description:
-                                type: string
-                                example: Programa para ler, criar, atualizar e deletar em uma api
-                responses:
-                    201:
-                        description: Retorna um novo usuario
-                        schema:
-                            type: object
-                            properties:
-                                title:
-                                    type: string
-                                    example> Tarefa de MVC
-                                description:
-                                    type: string
-                                    example: Programa para ler, criar, atualizar e deletar em uma api
-                                user_id: 
-                                    type: integer
-                                    example: 3
-                                            400:
-                                                description: Requisição invalida, faltando titulo ou descrição
-                                                schema:
-                                                    type: object
-                                                    properties:
-                                                        error:
-                                                            type: string
-                                                            example: "titulo e descrição são obrigatorios"
-                        description:
-            """
+            
             # TODO capturar dados do formulário (title, description, user_id)
             title = request.form['title']
             description = request.form['description']
